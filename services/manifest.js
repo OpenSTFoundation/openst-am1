@@ -44,7 +44,12 @@ const rootPrefix = ".."
   , StakeAndMintInterCommKlass = require(rootPrefix + '/services/inter_comm/stake_and_mint')
   , StakeAndMintProcessorInterCommKlass = require(rootPrefix + '/services/inter_comm/stake_and_mint_processor')
 
+
+  , ProofGenerator = require(rootPrefix + '/services/proof/proof_generator')
+
+
   , SyncKlass = require(rootPrefix + '/services/sync/sync')
+
 ;
 
 /**
@@ -152,10 +157,14 @@ ServiceManifestKlass.prototype = {
   },
 
   /**
-   * Service to sync chaindata level db folder of geth
+   *  Merkel Patricia proof generation
+   */
+  ProofGenerator: ProofGenerator,
+
+  /*
+   * Service to sync chain-data level db folder of geth
    */
   Sync: SyncKlass
-
 };
 
 module.exports = new ServiceManifestKlass();

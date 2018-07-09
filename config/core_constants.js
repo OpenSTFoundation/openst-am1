@@ -156,7 +156,12 @@ CoreConstants.prototype = {
    */
   STANDALONE_MODE: process.env.OST_STANDALONE_MODE || 0,
 
-  AUTO_SCALE_DYNAMO: process.env.AUTO_SCALE_DYNAMO
+  AUTO_SCALE_DYNAMO: process.env.AUTO_SCALE_DYNAMO,
+
+  /**
+   * PROOF BATCH SIZE
+   */
+  PROOF_BATCH_SIZE: 10
 };
 
 module.exports = new CoreConstants();

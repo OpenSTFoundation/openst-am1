@@ -24,7 +24,9 @@
   "scripts": {
     "start": "index.js",
     "setup": "node tools/setup/index.js",
-    "make-docs": "node_modules/.bin/jsdoc -c .jsdoc.json"
+    "make-docs": "node_modules/.bin/jsdoc -c .jsdoc.json",
+    "unit_test": "mocha test test/unit/*/*",
+    "integration_test": "mocha test test/integration/*/* --timeout 120000 --exit"
   },
   "dependencies": {
     "@openstfoundation/openst-base": "0.9.1",
@@ -37,6 +39,10 @@
     "continuation-local-storage": "3.2.1",
     "debug": "2.2.0",
     "edit-json-file": "1.0.8",
+    "ethereumjs-util": "5.2.0",
+    "leveldown": "4.0.1",
+    "levelup": "3.0.1",
+    "merkle-patricia-tree": "2.3.1",
     "node-cmd": "3.0.0",
     "readline": "1.3.0",
     "rsync": "0.6.1",
@@ -51,7 +57,7 @@
     "ink-docstrap": "1.3.2",
     "jsdoc": "3.5.5",
     "mocha": "5.0.0",
-    "sinon": "6.0.1",
-    "mock-require": "3.0.2"
+    "mock-require": "3.0.2",
+    "sinon": "6.0.0"
   }
 }
