@@ -1,3 +1,6 @@
+## OpenST-platform v0.9.5
+Stake hunter inter chain communicator introduced in this release. It listens to the ProcessedMint event emitted by processMinting method of openSTUtility contract. On getting this event, it calls processStaking method of openSTValue contract if not called already.
+
 ## OpenST-platform v0.9.4
 #####OpenST-storage and dynamoDB integration for token balances ([openst-platform#136](https://github.com/OpenSTFoundation/openst-platform/issues/136))
 Now the balances (settled and unsettled debits) are being stored in DynamoDB.
