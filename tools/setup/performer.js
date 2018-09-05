@@ -20,8 +20,7 @@ require(rootPrefix + '/tools/setup/service_manager');
 require(rootPrefix + '/tools/setup/geth_manager');
 require(rootPrefix + '/tools/setup/geth_checker');
 require(rootPrefix + '/tools/setup/fund_users');
-require(rootPrefix + '/tools/setup/dynamo_db_shard_management');
-require(rootPrefix + '/tools/setup/dynamo_db_register_shards');
+require(rootPrefix + '/tools/setup/dynamo_db_create_shards');
 require(rootPrefix + '/tools/setup/simple_token/deploy');
 require(rootPrefix + '/tools/setup/simple_token/finalize');
 require(rootPrefix + '/tools/setup/fund_users_with_st');
@@ -34,7 +33,8 @@ require(rootPrefix + '/tools/deploy/value_core');
 require(rootPrefix + '/tools/deploy/st_prime');
 require(rootPrefix + '/tools/setup/simple_token_prime/mint');
 require(rootPrefix + '/tools/setup/fund_users_with_st_prime');
-require(rootPrefix + '/tools/setup/openst_value/set_admin_address');
+require(rootPrefix + '/tools/setup/openst_value/set_value_admin_address');
+require(rootPrefix + '/tools/setup/openst_utility/set_utility_admin_address');
 
 const OpenSTSetup = function(configStrategy, instanceComposer) {};
 
@@ -55,7 +55,7 @@ OpenSTSetup.prototype = {
         'dynamo_db_shard_management', //one time migrations
 
         // utility chain setup steps
-        'dynamo_db_register_shards', // creation and registration of DDB shards, utility chain specific
+        'dynamo_db_create_shards', // creation and registration of DDB shards, utility chain specific
         'init_utility_chain',
         'deploy_utility_chain',
         'snm_intercomm',
@@ -156,7 +156,6 @@ OpenSTSetup.prototype = {
     }
 
     if (step === 'deploy_value_chain' || step === 'all') {
-
       // Deploy Value Registrar Contract and update ENV
       const valueRegistrarDeployResponse = await oThis.performHelperService(oThis.deployValueRegistrarContract);
       setupConfig.contracts['valueRegistrar'].address.value = valueRegistrarDeployResponse.data.address;
@@ -172,28 +171,12 @@ OpenSTSetup.prototype = {
 
       // Copy the config file to config folder
       fileManager.cp('.', setupHelper.configFolder(), setupConfig.openst_platform_config_file);
-
     }
 
-    if (step === 'dynamo_db_shard_management' || step === 'all') {
-      let cmd = "ps aux | grep dynamo | grep java | grep -v grep | tr -s ' ' | cut -d ' ' -f2";
-      let processId = shell.exec(cmd).stdout;
-
-      if (processId === '') {
-        // Start Dynamo DB
-        let startDynamo = new StartDynamo();
-        await startDynamo.perform();
-      }
-
-      // Dynamo DB one time migrations
-      logger.step('** Dynamo DB One Time Migrations');
-      await oThis.performHelperService(oThis.dynamoDbShardManagement);
-    }
-
-    if (step === 'dynamo_db_register_shards' || step === 'all' || step === 'utility') {
+    if (step === 'dynamo_db_create_shards' || step === 'all' || step === 'utility') {
       // Dynamo DB creation and registration of shards
-      logger.step('** Dynamo DB Shard creation and registration for Utility Chain ');
-      await oThis.performHelperService(oThis.dynamoDbRegisterShards);
+      logger.step('** Dynamo DB Shard Creation for Utility Chain ');
+      await oThis.performHelperService(oThis.dynamoDbCreateShards);
     }
 
     if (step === 'init_utility_chain' || step === 'all' || step === 'utility') {
@@ -298,6 +281,9 @@ OpenSTSetup.prototype = {
       // Fund required addresses
       logger.step('** Funding required addresses with ST Prime');
       await oThis.performHelperService(oThis.fundUsersWithSTPrime);
+
+      // Set Admin address for openST Utility
+      await oThis.performHelperService(oThis.openStUtilityDeployerAdminSetter);
     }
 
     if (step === 'stop_utility_services' || step === 'all' || step === 'utility') {
@@ -360,14 +346,9 @@ Object.defineProperties(OpenSTSetup.prototype, {
       return this.ic().getSetupFundUsers();
     }
   },
-  dynamoDbShardManagement: {
+  dynamoDbCreateShards: {
     get: function() {
-      return this.ic().getSetupDynamoDBShardManagement();
-    }
-  },
-  dynamoDbRegisterShards: {
-    get: function() {
-      return this.ic().getSetupDynamoDBRegisterShards();
+      return this.ic().getSetupDynamoDBCreateShards();
     }
   },
   simpleTokenDeploy: {
@@ -408,6 +389,11 @@ Object.defineProperties(OpenSTSetup.prototype, {
   openStValueDeployerAdminSetter: {
     get: function() {
       return this.ic().getOstValueAdminAddrSetter();
+    }
+  },
+  openStUtilityDeployerAdminSetter: {
+    get: function() {
+      return this.ic().getOstUtilityAdminAddrSetter();
     }
   },
   utilityRegistrarDeployer: {

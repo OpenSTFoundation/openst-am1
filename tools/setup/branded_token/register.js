@@ -17,7 +17,6 @@ const rootPrefix = '../../..',
 require(rootPrefix + '/services/utils/generate_address');
 require(rootPrefix + '/services/on_boarding/propose_branded_token');
 require(rootPrefix + '/services/on_boarding/get_registration_status');
-require(rootPrefix + '/lib/web3/providers/storage');
 
 /**
  * is equal ignoring case
@@ -95,10 +94,6 @@ RegisterBTKlass.prototype = {
     // Add branded token to config file
     logger.step('** Updating branded token config file');
     await oThis._updateBrandedTokenConfig();
-
-    // Allocating shard for storage of token balances
-    logger.step('** Allocating shard for storage of token balances');
-    await oThis._allocateShard();
 
     process.exit(0);
   },
@@ -243,22 +238,6 @@ RegisterBTKlass.prototype = {
     logger.info('* Branded token config:', existingBrandedTokens[oThis.uuid]);
 
     return tokenHelper.addBrandedToken(existingBrandedTokens);
-  },
-
-  /**
-   * Allocate shard to branded token
-   *
-   * @return {promise<object>} -
-   * @private
-   */
-  _allocateShard: async function() {
-    const oThis = this,
-      openSTStorageProvider = oThis.ic.getStorageProvider(),
-      openSTStorage = openSTStorageProvider.getInstance();
-
-    await new openSTStorage.model.TokenBalance({
-      erc20_contract_address: oThis.erc20
-    }).allocate();
   },
 
   /**
