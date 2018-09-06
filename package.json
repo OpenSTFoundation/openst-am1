@@ -30,7 +30,7 @@
   "dependencies": {
     "@openstfoundation/openst-base": "0.9.3-beta.4",
     "@openstfoundation/openst-notification": "1.0.4-beta.3",
-    "@openstfoundation/openst-storage": "1.0.2-beta.3",
+    "@openstfoundation/openst-storage": "git+https://github.com/OpenSTFoundation/openst-storage#feature/storage_refactor",
     "abi-decoder": "1.0.9",
     "bignumber.js": "4.1.0",
     "child_process": "1.0.2",
