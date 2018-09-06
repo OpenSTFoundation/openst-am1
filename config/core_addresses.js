@@ -147,8 +147,16 @@ CoreAddresses.prototype = {
         valueAdmin: {
           address: configStrategy.OST_VALUE_ADMIN_ADDR,
           passphrase: configStrategy.OST_VALUE_ADMIN_PASSPHRASE
-        }
+        },
 
+        /**
+         * utility admin account details
+         * @constant {object}
+         */
+        utilityAdmin: {
+          address: configStrategy.OST_UTILITY_ADMIN_ADDR,
+          passphrase: configStrategy.OST_UTILITY_ADMIN_PASSPHRASE
+        }
       },
 
       contracts: {
@@ -263,7 +271,7 @@ CoreAddresses.prototype = {
       var addr = this.allAddresses.contracts[contractName].address;
 
       if (Array.isArray(addr)) {
-        for (var i = 0; i < addr.length; i++) {
+        for (let i = 0; i < addr.length; i++) {
           addrToContractNameMap[addr[i].toLowerCase()] = contractName;
         }
       } else if (addr !== null && typeof addr !== 'undefined') {
