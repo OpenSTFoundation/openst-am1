@@ -34,7 +34,7 @@ require(rootPrefix + '/tools/deploy/st_prime');
 require(rootPrefix + '/tools/setup/simple_token_prime/mint');
 require(rootPrefix + '/tools/setup/fund_users_with_st_prime');
 require(rootPrefix + '/tools/setup/openst_value/set_value_admin_address');
-require(rootPrefix + '/tools/setup/openst_utility/set_utility_admin_address');
+//require(rootPrefix + '/tools/setup/openst_utility/set_utility_admin_address');
 
 const OpenSTSetup = function(configStrategy, instanceComposer) {};
 
@@ -391,11 +391,11 @@ Object.defineProperties(OpenSTSetup.prototype, {
       return this.ic().getOstValueAdminAddrSetter();
     }
   },
-  openStUtilityDeployerAdminSetter: {
-    get: function() {
-      return this.ic().getOstUtilityAdminAddrSetter();
-    }
-  },
+  // openStUtilityDeployerAdminSetter: {
+  //   get: function() {
+  //     return this.ic().getOstUtilityAdminAddrSetter();
+  //   }
+  // },
   utilityRegistrarDeployer: {
     get: function() {
       return this.ic().getUtilityRegistrarDeployer();
