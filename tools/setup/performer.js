@@ -34,7 +34,7 @@ require(rootPrefix + '/tools/deploy/st_prime');
 require(rootPrefix + '/tools/setup/simple_token_prime/mint');
 require(rootPrefix + '/tools/setup/fund_users_with_st_prime');
 require(rootPrefix + '/tools/setup/openst_value/set_value_admin_address');
-//require(rootPrefix + '/tools/setup/openst_utility/set_utility_admin_address');
+require(rootPrefix + '/tools/setup/openst_utility/set_utility_admin_address');
 
 const OpenSTSetup = function(configStrategy, instanceComposer) {};
 
@@ -174,6 +174,15 @@ OpenSTSetup.prototype = {
     }
 
     if (step === 'dynamo_db_create_shards' || step === 'all' || step === 'utility') {
+      let cmd = "ps aux | grep dynamo | grep java | grep -v grep | tr -s ' ' | cut -d ' ' -f2";
+      let processId = shell.exec(cmd).stdout;
+
+      if (processId === '') {
+        // Start Dynamo DB
+        let startDynamo = new StartDynamo();
+        await startDynamo.perform();
+      }
+
       // Dynamo DB creation and registration of shards
       logger.step('** Dynamo DB Shard Creation for Utility Chain ');
       await oThis.performHelperService(oThis.dynamoDbCreateShards);
@@ -391,11 +400,11 @@ Object.defineProperties(OpenSTSetup.prototype, {
       return this.ic().getOstValueAdminAddrSetter();
     }
   },
-  // openStUtilityDeployerAdminSetter: {
-  //   get: function() {
-  //     return this.ic().getOstUtilityAdminAddrSetter();
-  //   }
-  // },
+  openStUtilityDeployerAdminSetter: {
+    get: function() {
+      return this.ic().getOstUtilityAdminAddrSetter();
+    }
+  },
   utilityRegistrarDeployer: {
     get: function() {
       return this.ic().getUtilityRegistrarDeployer();

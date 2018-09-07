@@ -67,7 +67,7 @@ SetAdminAddressKlass.prototype = {
     const openSTUtilityAdminAddressResponse = await openSTUtility.getAdminAddress(),
       openSTUtilityAdminAddress = openSTUtilityAdminAddressResponse.data.address;
 
-    console.log('openSTUtilityAdminAddress', openSTUtilityAdminAddress);
+    logger.log('openSTUtilityAdminAddress', openSTUtilityAdminAddress);
 
     // check if the admin address is correctly set.
     if (!openSTUtilityAdminAddress || !openSTUtilityAdminAddress.equalsIgnoreCase(adminAddress)) {
