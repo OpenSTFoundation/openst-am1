@@ -137,7 +137,10 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
       stPrimeContractAddress = coreAddresses.getAddressForContract('stPrime'),
       stPrime = new StPrimeKlass(stPrimeContractAddress),
       openSTUtilityContractInteract = new OpenStUtilityKlass(),
-      openSTValueContractInteract = new OpenSTValueKlass();
+      openSTValueContractInteract = new OpenSTValueKlass()
+    ;
+
+    let erc20Address = null;
 
     // do not perform any action if the stake was not done using the internal address.
     if (!stakerAddress.equalsIgnoreCase(staker)) {
@@ -155,6 +158,7 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
       tokenType = 'st_prime';
     } else {
       const registeredOnUCResult = await openSTUtilityContractInteract.registeredToken(uuid);
+      erc20Address = registeredOnUCResult.data.erc20Address;
       utilityTokenInterfaceContract = new BrandedTokenKlass({ ERC20: registeredOnUCResult.data.erc20Address });
       displayTokenType = 'Branded Token';
       tokenType = 'bt';
@@ -310,16 +314,25 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
 
     if (ucClaimResponse.isSuccess()) {
       const ucFormattedTransactionReceipt = ucClaimResponse.data.formattedTransactionReceipt,
-        ucFormattedEvents = await web3EventsFormatter.perform(ucFormattedTransactionReceipt);
+        formattedEvents = ucClaimResponse.data.formattedEvents
+      ;
 
       // Fire notification event
       notificationData.topics = ['event.stake_and_mint_processor.claim_token_on_uc.done'];
       notificationData.message.kind = 'info';
       notificationData.message.payload.transaction_hash = ucFormattedTransactionReceipt.transactionHash;
       notificationData.message.payload.status = 'claim_token_on_uc_done';
+      notificationData.message.payload.erc20_address = erc20Address;
+
+      if (formattedEvents) {
+        notificationData.message.payload.benificiary_address = formattedEvents['Transfer']._to;
+        notificationData.message.payload.amount = formattedEvents['Transfer']._value;
+      }
+      notificationData.message.payload.token_type = tokenType;
       openSTNotification.publishEvent.perform(notificationData);
 
-      logger.win(stakingIntentHash, ':: performed claim for ' + displayTokenType, ucFormattedEvents);
+      logger.win(stakingIntentHash, ':: performed claim for ' + displayTokenType, formattedEvents);
+
     } else {
       // Fire notification event
       notificationData.message.kind = 'error';

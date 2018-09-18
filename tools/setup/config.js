@@ -202,6 +202,14 @@ const setupConfig = {
     logging_enabled: {
       env_var: 'OS_DYNAMODB_LOGGING_ENABLED',
       value: '0'
+    },
+    transaction_log_shard_name: {
+      env_var: 'TRANSACTION_LOG_SHARD_NAME',
+      value: '0'
+    },
+    token_balance_shard_name: {
+      env_var: 'TOKEN_BALANCE_SHARD_NAME',
+      value: 'tokenBalancesShard_1000'
     }
   },
 
@@ -323,6 +331,23 @@ const setupConfig = {
       },
       passphrase: {
         env_var: 'OST_VALUE_ADMIN_PASSPHRASE',
+        value: 'testtest' //Editable
+      },
+      chains: {
+        value: {
+          fund: ''
+        }
+      }
+    },
+
+    // Utility admin address
+    utilityAdmin: {
+      address: {
+        env_var: 'OST_UTILITY_ADMIN_ADDR',
+        value: ''
+      },
+      passphrase: {
+        env_var: 'OST_UTILITY_ADMIN_PASSPHRASE',
         value: 'testtest' //Editable
       },
       chains: {
