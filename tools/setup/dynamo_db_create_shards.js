@@ -1,10 +1,10 @@
 'use strict';
 /**
- * Dynamo DB create and register shards
+ * Dynamo DB create shards
  *
- * Utility chain specific creation and registration of shards
+ * Utility chain specific creation of shards
  *
- * @module tools/setup/dynamo_db_register_shards
+ * @module tools/setup/dynamo_db_create_shards
  */
 
 const rootPrefix = '../..',
@@ -30,11 +30,11 @@ DynamoDBRegisterShards.prototype = {
     let shardName = 'tokenBalancesShard_' + setupHelper.chainIdFor('utilty');
 
     // createAndRegisterShard
-    logger.info('* Creating and registering shard for token balance model.');
-    await new openSTStorage.model.TokenBalance({}).createAndRegisterShard(shardName);
+    logger.info('* Creating shard for token balance model.');
+    await new openSTStorage.model.TokenBalance({shard_name: shardName}).createShard();
   }
 };
 
-InstanceComposer.register(DynamoDBRegisterShards, 'getSetupDynamoDBRegisterShards', false);
+InstanceComposer.register(DynamoDBRegisterShards, 'getSetupDynamoDBCreateShards', false);
 
 module.exports = DynamoDBRegisterShards;

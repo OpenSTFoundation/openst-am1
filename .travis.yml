@@ -6,6 +6,7 @@ branches:
   - master
   - develop
   - release-0.9
+  - feature/storage_refactor
 notifications:
   email:
     recipients:
@@ -43,8 +44,7 @@ script:
   - node tools/setup/index.js -s st_contract
   - node tools/setup/index.js -s fund_users_with_st
   - node tools/setup/index.js -s deploy_value_chain
-  - node tools/setup/index.js -s dynamo_db_shard_management
-  - node tools/setup/index.js -s dynamo_db_register_shards
+  - node tools/setup/index.js -s dynamo_db_create_shards
   - node tools/setup/index.js -s init_utility_chain
   - node tools/setup/index.js -s deploy_utility_chain
   - node tools/setup/index.js -s snm_intercomm
