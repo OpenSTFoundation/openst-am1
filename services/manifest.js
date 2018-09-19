@@ -64,6 +64,10 @@ require(rootPrefix + '/tools/deploy/st_prime');
 require(rootPrefix + '/tools/deploy/register_st_prime');
 require(rootPrefix + '/tools/setup/fund_users_with_st_prime');
 require(rootPrefix + '/tools/setup/fund_users_with_st');
+require(rootPrefix + '/tools/setup/simple_token/finalize');
+require(rootPrefix + '/tools/setup/simple_token/deploy');
+require(rootPrefix + '/tools/setup/openst_value/set_value_admin_address');
+require(rootPrefix + '/tools/setup/openst_utility/set_utility_admin_address');
 
 /**
  * Service Manifest Constructor
