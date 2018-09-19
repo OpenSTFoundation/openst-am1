@@ -56,11 +56,14 @@ require(rootPrefix + '/services/inter_comm/stake_hunter');
 require(rootPrefix + '/tools/setup/performer');
 require(rootPrefix + '/tools/setup/simple_token_prime/mint');
 require(rootPrefix + '/tools/deploy/utility_registrar');
+require(rootPrefix + '/tools/deploy/value_registrar');
+require(rootPrefix + '/tools/deploy/openst_value');
 require(rootPrefix + '/tools/deploy/openst_utility');
 require(rootPrefix + '/tools/deploy/value_core');
 require(rootPrefix + '/tools/deploy/st_prime');
 require(rootPrefix + '/tools/deploy/register_st_prime');
 require(rootPrefix + '/tools/setup/fund_users_with_st_prime');
+require(rootPrefix + '/tools/setup/fund_users_with_st');
 
 /**
  * Service Manifest Constructor
@@ -144,6 +147,8 @@ const ServiceManifestKlass = function(configStrategy, instanceComposer) {
    **/
   let setup = (oThis.setup = {});
   setup.performer = instanceComposer.getOpenSTSetup();
+  setup.deployValueRegistrarContract = instanceComposer.getDeployValueRegistrarContract();
+  setup.openStValueDeployer = instanceComposer.getOpenStValueDeployer();
   setup.utilityRegistrarDeployer = instanceComposer.getUtilityRegistrarDeployer();
   setup.openStUtilityDeployer = instanceComposer.getOpenStUtilityDeployer();
   setup.valueCoreDeployer = instanceComposer.getValueCoreDeployer();
@@ -151,7 +156,11 @@ const ServiceManifestKlass = function(configStrategy, instanceComposer) {
   setup.stPrimeMinter = instanceComposer.getStakeAndMintSTPrimeMinter();
   setup.registerSTPrime = instanceComposer.getSetupRegisterSTPrime();
   setup.fundUsersWithSTPrime = instanceComposer.getSetupFundUsersWithSTPrime();
-
+  setup.fundUsersWithST = instanceComposer.getSetupFundUsersWithST();
+  setup.simpleTokenDeploy = instanceComposer.getSimpleTokenDeployer();
+  setup.finalizeSimpleToken = instanceComposer.getSimpleTokenFinalizar();
+  setup.openStValueDeployerAdminSetter = instanceComposer.getOstValueAdminAddrSetter();
+  setup.openStUtilityDeployerAdminSetter = instanceComposer.getOstUtilityAdminAddrSetter();
 };
 
 ServiceManifestKlass.prototype = {};
