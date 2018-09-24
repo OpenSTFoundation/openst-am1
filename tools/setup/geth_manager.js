@@ -30,7 +30,7 @@ const tempGethFolder = 'tmp-geth',
   hexStartsWith = '0x',
   genesisTemplateLocation = Path.join(__dirname),
   etherToWeiConversion = new BigNumber(1000000000000000000),
-  preInitAddressName = ['sealer', 'valueAdmin'];
+  preInitAddressName = ['sealer', 'valueAdmin', 'utilityAdmin'];
 
 /**
  * Constructor for geth manager
@@ -178,7 +178,7 @@ GethManagerKlass.prototype = {
       timerInterval = 5000,
       chainTimer = { timer: undefined, blockNumber: 0, retryCounter: 0 };
 
-    if (chain != 'utility') {
+    if (chain !== 'utility') {
       chain = 'value';
     }
 
@@ -263,7 +263,7 @@ GethManagerKlass.prototype = {
     file.set('gasLimit', gasLimit);
 
     // add extra data
-    if (chain == 'utility') {
+    if (chain === 'utility') {
       file.set('extraData', extraData);
     }
 
