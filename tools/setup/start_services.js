@@ -105,8 +105,8 @@ StartServicesKlass.prototype = {
     servicesList.push(cmd);
     oThis._asyncCommand(cmd);
 
-    logger.step("** Start Stake hunter inter-communication process");
-    var cmd = "sh " + setupHelper.binFolderAbsolutePath() + "/run-stake_hunter.sh";
+    logger.step('** Start Stake hunter inter-communication process');
+    cmd = 'sh ' + setupHelper.binFolderAbsolutePath() + '/run-stake_hunter.sh';
     servicesList.push(cmd);
     oThis._asyncCommand(cmd);
 
