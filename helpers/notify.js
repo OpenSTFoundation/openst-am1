@@ -61,17 +61,21 @@ NotifierKlass.prototype = {
       bodyData = data;
     }
 
-    openStNotification.publishEvent.perform({
-      topics: ['email_error.' + packageName],
-      publisher: 'OST',
-      message: {
-        kind: 'email',
-        payload: {
-          subject: packageName + ' ::' + code,
-          body: ' Message: ' + msg + ' \n\n Data: ' + bodyData + ' \n\n backtrace: ' + backtrace
+    openStNotification.publishEvent
+      .perform({
+        topics: ['email_error.' + packageName],
+        publisher: 'OST',
+        message: {
+          kind: 'email',
+          payload: {
+            subject: packageName + ' ::' + code,
+            body: ' Message: ' + msg + ' \n\n Data: ' + bodyData + ' \n\n backtrace: ' + backtrace
+          }
         }
-      }
-    });
+      })
+      .catch(function(err) {
+        logger.error('Message for queue email_error was not published Error: ', err);
+      });
   }
 };
 

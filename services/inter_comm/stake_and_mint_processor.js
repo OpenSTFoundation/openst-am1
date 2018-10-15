@@ -194,7 +194,9 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
     notificationData.message.kind = 'info';
     notificationData.message.payload.status = 'process_staking_on_vc_start';
     notificationData.message.payload.transaction_hash = '';
-    openStNotification.publishEvent.perform(notificationData);
+    openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+      logger.error('Message for event process staking on vc start was not published. Error: ', err);
+    });
 
     logger.step(stakingIntentHash, ' :: performing processStaking for ' + displayTokenType);
 
@@ -213,7 +215,9 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
       notificationData.message.kind = 'info';
       notificationData.message.payload.transaction_hash = vcFormattedTransactionReceipt.transactionHash;
       notificationData.message.payload.status = 'process_staking_on_vc_done';
-      openStNotification.publishEvent.perform(notificationData);
+      openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+        logger.error('Message for event process staking on vc done was not published. Error: ', err);
+      });
 
       logger.win(
         stakingIntentHash,
@@ -226,7 +230,9 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
       notificationData.message.payload.error_data = vcStakeResponse;
       notificationData.message.payload.transaction_hash = '';
       notificationData.message.payload.status = 'process_staking_on_vc_failed';
-      openStNotification.publishEvent.perform(notificationData);
+      openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+        logger.error('Message for event process staking on vc failed was not published. Error: ', err);
+      });
 
       // notify devs about the error
       errorNotifier.notify(
@@ -252,7 +258,9 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
     notificationData.message.kind = 'info';
     notificationData.message.payload.transaction_hash = '';
     notificationData.message.payload.status = 'process_minting_on_uc_start';
-    openStNotification.publishEvent.perform(notificationData);
+    openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+      logger.error('Message for process minting on uc start was not published. Error: ', err);
+    });
 
     logger.step(stakingIntentHash, ' :: performing processMinting for ' + displayTokenType);
 
@@ -271,7 +279,9 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
       notificationData.message.kind = 'info';
       notificationData.message.payload.transaction_hash = ucFormattedTransactionReceipt.transactionHash;
       notificationData.message.payload.status = 'process_minting_on_uc_done';
-      openStNotification.publishEvent.perform(notificationData);
+      openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+        logger.error('Message for event process minting on uc done was not published. Error: ', err);
+      });
 
       logger.win(
         stakingIntentHash,
@@ -284,7 +294,9 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
       notificationData.message.payload.error_data = ucMintResponse;
       notificationData.message.payload.transaction_hash = '';
       notificationData.message.payload.status = 'process_minting_on_uc_failed';
-      openStNotification.publishEvent.perform(notificationData);
+      openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+        logger.error('Message for process minting on uc failed was not published. Error: ', err);
+      });
 
       errorNotifier.notify(
         'e_ic_samp_processor_2',
@@ -308,7 +320,9 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
     notificationData.message.kind = 'info';
     notificationData.message.payload.transaction_hash = '';
     notificationData.message.payload.status = 'claim_token_on_uc_start';
-    openStNotification.publishEvent.perform(notificationData);
+    openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+      logger.error('Message for event claim token on uc start was not published. Error: ', err);
+    });
 
     logger.step(stakingIntentHash, ' :: performing claim for ' + displayTokenType);
 
@@ -330,7 +344,9 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
         notificationData.message.payload.amount = formattedEvents['Transfer']._value;
       }
       notificationData.message.payload.token_type = tokenType;
-      openStNotification.publishEvent.perform(notificationData);
+      openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+        logger.error('Message for event claim token on uc done was not published. Error: ', err);
+      });
 
       logger.win(stakingIntentHash, ':: performed claim for ' + displayTokenType, formattedEvents);
     } else {
@@ -339,7 +355,9 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
       notificationData.message.payload.transaction_hash = '';
       notificationData.message.payload.error_data = ucClaimResponse;
       notificationData.message.payload.status = 'claim_token_on_uc_failed';
-      openStNotification.publishEvent.perform(notificationData);
+      openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+        logger.error('Message for claim token on uc was not published. Error: ', err);
+      });
 
       errorNotifier.notify('e_ic_samp_processor_3', stakingIntentHash + ' claim failed for ' + displayTokenType);
 
