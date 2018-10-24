@@ -20,8 +20,6 @@
  * @module services/inter_comm/register_branded_token
  */
 
-const openSTNotification = require('@openstfoundation/openst-notification');
-
 const rootPrefix = '../..',
   InstanceComposer = require(rootPrefix + '/instance_composer'),
   logger = require(rootPrefix + '/helpers/custom_console_logger'),
@@ -34,6 +32,7 @@ require(rootPrefix + '/config/core_addresses');
 require(rootPrefix + '/lib/web3/providers/factory');
 require(rootPrefix + '/lib/contract_interact/value_registrar');
 require(rootPrefix + '/lib/contract_interact/utility_registrar');
+require(rootPrefix + '/helpers/notify');
 
 /**
  * Inter comm process to register branded token.
@@ -103,6 +102,9 @@ const RegisterBrandedTokenInterCommSpecificPrototype = {
       web3EventsFormatter = require(rootPrefix + '/lib/web3/events/formatter'),
       ValueRegistrarKlass = oThis.ic().getValueRegistrarInteractClass(),
       UtilityRegistrarKlass = oThis.ic().getUtilityRegistrarClass(),
+      notificationProvider = oThis.ic().getNotificationProvider(),
+      errorNotifier = oThis.ic().getNotifierKlass(),
+      openStNotification = notificationProvider.getInstance(),
       notificationData = {
         topics: ['event.register_branded_token'], // override later: with every stage
         publisher: 'OST',
@@ -131,7 +133,9 @@ const RegisterBrandedTokenInterCommSpecificPrototype = {
     // Fire notification event
     notificationData.topics = ['event.register_branded_token.register_on_uc.start'];
     notificationData.message.kind = 'info';
-    openSTNotification.publishEvent.perform(notificationData);
+    openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+      logger.error('Message for event register branded token on uc start was not published. Error: ', err);
+    });
 
     logger.step(uuid, ':: performing registerBrandedToken of utilityRegistrar contract.');
 
@@ -156,7 +160,9 @@ const RegisterBrandedTokenInterCommSpecificPrototype = {
       notificationData.topics = ['event.register_branded_token.register_on_uc.done'];
       notificationData.message.kind = 'info';
       notificationData.message.payload.transaction_hash = ucFormattedTransactionReceipt.transactionHash;
-      openSTNotification.publishEvent.perform(notificationData);
+      openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+        logger.error('Message for event register branded token on uc done was not published. Error: ', err);
+      });
 
       logger.win(
         uuid,
@@ -168,10 +174,12 @@ const RegisterBrandedTokenInterCommSpecificPrototype = {
       // Fire notification event
       notificationData.message.kind = 'error';
       notificationData.message.payload.error_data = ucRegistrarResponse;
-      openSTNotification.publishEvent.perform(notificationData);
+      openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+        logger.error('Message for error in register branded token on uc done was not published. Error: ', err);
+      });
 
       var errMessage = uuid + ' registerBrandedToken of utilityRegistrar contract ERROR. Something went wrong!';
-      logger.notify('e_ic_rbt_processor_1', errMessage);
+      errorNotifier.notify('e_ic_rbt_processor_1', errMessage);
 
       let errObj = responseHelper.error({
         internal_error_identifier: 'e_ic_rbt_1_' + uuid,
@@ -185,7 +193,9 @@ const RegisterBrandedTokenInterCommSpecificPrototype = {
     // Fire notification event
     notificationData.topics = ['event.register_branded_token.register_on_vc.start'];
     notificationData.message.kind = 'info';
-    openSTNotification.publishEvent.perform(notificationData);
+    openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+      logger.error('Message for event register branded token on vc start was not published. Error: ', err);
+    });
 
     logger.step(uuid, ':: performing registerUtilityToken of valueRegistrar contract.');
 
@@ -210,17 +220,21 @@ const RegisterBrandedTokenInterCommSpecificPrototype = {
       notificationData.topics = ['event.register_branded_token.register_on_vc.done'];
       notificationData.message.kind = 'info';
       notificationData.message.payload.transaction_hash = vcFormattedTransactionReceipt.transactionHash;
-      openSTNotification.publishEvent.perform(notificationData);
+      openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+        logger.error('Message for event register branded token register on vc done was not published. Error: ', err);
+      });
 
       logger.win(uuid, ':: performed registerUtilityToken of valueRegistrar contract.', vcFormattedEvents);
     } else {
       // Fire notification event
       notificationData.message.kind = 'error';
       notificationData.message.payload.error_data = vcRegistrarResponse;
-      openSTNotification.publishEvent.perform(notificationData);
+      openStNotification.publishEvent.perform(notificationData).catch(function(err) {
+        logger.error('Message for event register branded token on vc done was not published. Error: ', err);
+      });
 
       var errMessage = uuid + ' registerUtilityToken of valueRegistrar contract ERROR. Something went wrong!';
-      logger.notify('e_ic_rbt_processor_2', errMessage);
+      errorNotifier.notify('e_ic_rbt_processor_2', errMessage);
 
       let errObj = responseHelper.error({
         internal_error_identifier: 'e_ic_rbt_2_' + uuid,

@@ -121,27 +121,27 @@ const setupConfig = {
   notification: {
     rmq_support: {
       env_var: 'OST_RMQ_SUPPORT',
-      value: '0' //Editable (0/1)
+      value: '1' //Editable (0/1)
     },
     rmq_host: {
       env_var: 'OST_RMQ_HOST',
-      value: '' //Editable
+      value: '127.0.0.1' //Editable
     },
     rmq_port: {
       env_var: 'OST_RMQ_PORT',
-      value: '' //Editable
+      value: '5672' //Editable
     },
     rmq_username: {
       env_var: 'OST_RMQ_USERNAME',
-      value: '' //Editable
+      value: 'guest' //Editable
     },
     rmq_password: {
       env_var: 'OST_RMQ_PASSWORD',
-      value: '' //Editable
+      value: 'guest' //Editable
     },
     rmq_heartbeats: {
       env_var: 'OST_RMQ_HEARTBEATS',
-      value: '' //Editable
+      value: '30' //Editable
     }
   },
 
