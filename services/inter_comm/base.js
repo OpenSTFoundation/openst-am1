@@ -188,6 +188,22 @@ IntercomBaseKlass.prototype = {
       logger.info('Exiting Process....');
       process.exit(1);
     }
+  },
+
+  /**
+   *
+   * @param numberOfBlocks -  Number of blocks
+   * @param blockGenerationTime - Block generation time on utility chain in milliseconds
+   * @returns {Promise<any>}
+   */
+  sleep: function(numberOfBlocks, blockGenerationTime) {
+    const oThis = this;
+
+    let time = numberOfBlocks * blockGenerationTime;
+
+    return new Promise(function(onResolve, onReject) {
+      setTimeout(onResolve, time);
+    });
   }
 };
 

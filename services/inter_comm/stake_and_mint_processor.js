@@ -262,6 +262,12 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
       logger.error('Message for process minting on uc start was not published. Error: ', err);
     });
 
+    let blockGenerationTime = coreConstants.BLOCK_GENERATION_TIME,
+      numberOfBlocks = coreConstants.INTENTIONAL_BLOCK_DELAY;
+
+    //added intentional delay before process minting step
+    await oThis.sleep(numberOfBlocks, blockGenerationTime);
+
     logger.step(stakingIntentHash, ' :: performing processMinting for ' + displayTokenType);
 
     const ucMintResponse = await openSTUtilityContractInteract.processMinting(
