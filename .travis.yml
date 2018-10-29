@@ -6,7 +6,6 @@ branches:
   - master
   - develop
   - release-0.9
-  - feature/storage_refactor
 notifications:
   email:
     recipients:
