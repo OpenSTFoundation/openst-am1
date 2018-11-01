@@ -78,7 +78,7 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
   EVENT_NAME: 'StakingIntentConfirmed',
 
   // Process block after delay of BLOCK_CONFIRMATION.
-  BLOCK_CONFIRMATION: 12,
+  BLOCK_CONFIRMATION: 6,
 
   /**
    * Set contract object for listening to events
@@ -261,12 +261,6 @@ const StakeAndMintProcessorInterCommKlassSpecificPrototype = {
     openStNotification.publishEvent.perform(notificationData).catch(function(err) {
       logger.error('Message for process minting on uc start was not published. Error: ', err);
     });
-
-    let blockGenerationTime = coreConstants.BLOCK_GENERATION_TIME,
-      numberOfBlocks = coreConstants.INTENTIONAL_BLOCK_DELAY;
-
-    //added intentional delay before process minting step
-    await oThis.sleep(numberOfBlocks, blockGenerationTime);
 
     logger.step(stakingIntentHash, ' :: performing processMinting for ' + displayTokenType);
 
