@@ -50,7 +50,7 @@ const StakeAndMintInterCommKlassSpecificPrototype = {
   EVENT_NAME: 'StakingIntentDeclared',
 
   // Process block after delay of BLOCK_CONFIRMATION.
-  BLOCK_CONFIRMATION: 12,
+  BLOCK_CONFIRMATION: 24,
 
   /**
    * Set contract object for listening to events
