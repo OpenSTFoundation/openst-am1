@@ -52,7 +52,7 @@ const RegisterBrandedTokenInterCommSpecificPrototype = {
   EVENT_NAME: 'ProposedBrandedToken',
 
   // Process block after delay of BLOCK_CONFIRMATION.
-  BLOCK_CONFIRMATION: 6,
+  BLOCK_CONFIRMATION: 12,
 
   /**
    * Set contract object for listening to events
