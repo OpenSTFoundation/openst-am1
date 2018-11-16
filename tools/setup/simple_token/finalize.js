@@ -8,6 +8,7 @@
 
 const rootPrefix = '../../..',
   logger = require(rootPrefix + '/helpers/custom_console_logger'),
+  responseHelper = require(rootPrefix + '/lib/formatter/response'),
   InstanceComposer = require(rootPrefix + '/instance_composer');
 
 require(rootPrefix + '/lib/contract_interact/simple_token');
@@ -64,7 +65,7 @@ FinalizeSimpleTokenContractKlass.prototype = {
     // finalize the simple token contract
     await simpleTokenObj.finalize(valueRegistrarAddr, valueRegistrarPassphrase);
 
-    return Promise.resolve();
+    return Promise.resolve(responseHelper.successWithData({}));
   }
 };
 

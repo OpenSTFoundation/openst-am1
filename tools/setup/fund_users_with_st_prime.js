@@ -10,6 +10,7 @@ const BigNumber = require('bignumber.js');
 
 const rootPrefix = '../..',
   InstanceComposer = require(rootPrefix + '/instance_composer'),
+  responseHelper = require(rootPrefix + '/lib/formatter/response'),
   logger = require(rootPrefix + '/helpers/custom_console_logger');
 
 require(rootPrefix + '/tools/setup/fund_manager');
@@ -82,7 +83,7 @@ FundUsersWithSTPrimeKlass.prototype = {
       MIN_FUND.mul(100).toString(10)
     );
 
-    return Promise.resolve();
+    return Promise.resolve(responseHelper.successWithData({}));
   }
 };
 
