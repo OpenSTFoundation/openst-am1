@@ -163,7 +163,15 @@ CoreConstants.prototype = {
    */
   OST_STANDALONE_MODE: 0,
 
-  AUTO_SCALE_DYNAMO: null
+  AUTO_SCALE_DYNAMO: null,
+
+  /**
+   * Intentional block delay for process minting on utility chain
+   * @constant {number}
+   */
+  BLOCK_GENERATION_TIME: 2000,
+
+  INTENTIONAL_BLOCK_DELAY: 6
 };
 
 InstanceComposer.register(CoreConstants, 'getCoreConstants', true);
