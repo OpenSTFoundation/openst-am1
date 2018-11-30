@@ -72,7 +72,7 @@ SetAdminAddressKlass.prototype = {
       return Promise.reject('Admin Address not correctly set');
     } else {
       logger.step('** successfully verified admin address');
-      return Promise.resolve(responseHelper.successWithData({ address: openSTValueAdminAddress }));
+      return Promise.resolve(responseHelper.successWithData({}));
     }
   }
 };

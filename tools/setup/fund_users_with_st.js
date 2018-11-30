@@ -10,7 +10,6 @@ const BigNumber = require('bignumber.js');
 
 const rootPrefix = '../..',
   InstanceComposer = require(rootPrefix + '/instance_composer'),
-  responseHelper = require(rootPrefix + '/lib/formatter/response'),
   logger = require(rootPrefix + '/helpers/custom_console_logger');
 
 require(rootPrefix + '/tools/setup/fund_manager');
@@ -47,7 +46,7 @@ FundUsersWithStKlass.prototype = {
       { tag: 'transferSTToUCOwner', returnType: 'txReceipt' }
     );
 
-    return Promise.resolve(responseHelper.successWithData({}));
+    return Promise.resolve();
   }
 };
 

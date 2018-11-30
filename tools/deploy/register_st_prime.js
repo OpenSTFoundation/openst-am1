@@ -16,7 +16,6 @@
 
 const rootPrefix = '../..',
   InstanceComposer = require(rootPrefix + '/instance_composer'),
-  responseHelper = require(rootPrefix + '/lib/formatter/response'),
   logger = require(rootPrefix + '/helpers/custom_console_logger');
 
 require(rootPrefix + '/config/core_constants');
@@ -90,7 +89,7 @@ RegisterStPrimeKlass.prototype = {
       process.exit(1);
     }
 
-    return Promise.resolve(responseHelper.successWithData({}));
+    return Promise.resolve();
   }
 };
 
